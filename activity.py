@@ -56,18 +56,41 @@ equations = ["x^2+7x+2",
 # Generate x values from 1 to 50
 x_values = list(range(0, 50))
 
-# Loop through equations, calculate y values, write data to files, and plot
-for equation in equations:
-    y_values = calculate_y_values(x_values, equation)
-    filename = equation.replace('^', '_').replace('+', '').replace('-', '').replace('(', '').replace(')', '') + '.txt'
-    write_to_file(filename, y_values)
-    
-    # Plotting
-    plt.plot(x_values, y_values, label=equation)
+# Ask user for choice
+print("Choose how to plot the equations:")
+print("1. Plot each equation separately")
+print("2. Plot all equations on a single graph")
+choice = input("Enter your choice (1 or 2): ")
 
-plt.xlabel('X-axis')
-plt.ylabel('Y-axis')
-plt.title('Graphs of Various Equations')
-plt.legend()
-plt.grid(True)
-plt.show()
+if choice == "1":
+    # Loop through equations, calculate y values, write data to files, and plot
+    for equation in equations:
+        y_values = calculate_y_values(x_values, equation)
+        filename = equation.replace('^', '_').replace('+', '').replace('-', '').replace('(', '').replace(')', '') + '.txt'
+        write_to_file(filename, y_values)
+        
+        # Plotting each equation separately
+        plt.figure()  # Create a new figure for each plot
+        plt.plot(x_values, y_values)
+        plt.xlabel('X-axis')
+        plt.ylabel('Y-axis')
+        plt.title(f'Graph of Equation: {equation}')
+        plt.grid(True)
+        plt.show()
+
+elif choice == "2":
+    # Plot all equations on a single graph
+    plt.figure()  # Create a new figure
+    for equation in equations:
+        y_values = calculate_y_values(x_values, equation)
+        plt.plot(x_values, y_values, label=equation)
+
+    plt.xlabel('X-axis')
+    plt.ylabel('Y-axis')
+    plt.title('Graphs of Various Equations')
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
+else:
+    print("Invalid choice. Please enter either 1 or 2.")
